@@ -34,7 +34,7 @@ async def load_model():
         app.state.scaler = pickle.load(f)
     
     # Initialize test environment
-    test_data = get_data()[n_train:]
+    test_data = get_data()
     app.state.test_env = MultiStockEnv(test_data, 0.5, 0.5, 20000)
 
 class PredictionRequest(BaseModel):
@@ -77,7 +77,7 @@ def predict_via_tf_serving(state):
     except Exception as e:
         print(f"TF Serving error: {str(e)}")
         # Fallback to local model
-        return agent.model.predict(state)[0]
+        return app.state.agent.model.predict(state)[0]
 
 @app.post("/predict")
 def predict(request: PredictionRequest):

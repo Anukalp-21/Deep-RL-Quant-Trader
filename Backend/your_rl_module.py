@@ -7,8 +7,7 @@ from tensorflow.keras.optimizers import Adam
 from collections import deque
 import itertools
 def get_data():
-  df=pd.read_csv('/kaggle/input/ghgkkgcgh/MultiStock.csv')
-  print(df.head())
+  df=pd.read_csv('/workspaces/RL-Trader/Data/test.csv')
   return df.values
 class SumTree:
     def __init__(self, capacity):
