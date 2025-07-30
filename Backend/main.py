@@ -12,7 +12,7 @@ from pathlib import Path
 
 # Add your RL module to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from rl_trader import DQNAgent, MultiStockEnv, get_data  # Import your actual module
+from your_rl_module import DQNAgent, MultiStockEnv, get_data  # Import your actual module
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

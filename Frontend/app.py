@@ -5,9 +5,9 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 from datetime import datetime
-
+import os
 # Backend configuration
-BACKEND_URL = "http://localhost:8000"  # Update if deployed
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 st.title("RL Stock Trading Dashboard")
 
