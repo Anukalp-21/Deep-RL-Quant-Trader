@@ -57,9 +57,6 @@ async def load_assets():
         
         # Initialize test environment
         test_data = get_data()
-        n_timesteps = test_data.shape[0]
-        n_train = n_timesteps * 2 // 3
-        test_data = test_data[n_train:]
         
         app.state.test_env = MultiStockEnv(
             test_data, 
@@ -120,6 +117,8 @@ def predict(request: PredictionRequest):
 @app.get("/run-test-episode", response_model=PortfolioResponse)
 def run_test_episode():
     try:
+        original_epsilon = app.state.agent.adaptive_epsilon
+        app.state.agent.adaptive_epsilon = 0.0
         portfolio_values = []
         state = app.state.test_env.reset()
         done = False

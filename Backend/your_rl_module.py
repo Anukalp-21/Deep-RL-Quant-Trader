@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.layers import Dense,Input,Dropout,BatchNormalization,Activation
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from collections import deque
@@ -9,6 +9,20 @@ import itertools
 def get_data():
   df=pd.read_csv('/workspaces/RL-Trader/Data/test.csv')
   return df.values
+def mlp(input_dim, n_action, hidden_layers=[256,128,64,32]):
+    i = Input(shape=(input_dim,))
+    x = i
+    for units in hidden_layers:
+        x = Dense(units)(x)
+        x = BatchNormalization()(x)
+        x = Activation('relu')(x)
+        x = Dropout(0.2)(x)
+    x = Dense(n_action)(x)
+    model = Model(i, x)
+    model.compile(loss='huber_loss',  # More robust than MSE
+                  optimizer = Adam(learning_rate=0.00025, clipnorm=1.0))
+    return model
+
 class SumTree:
     def __init__(self, capacity):
         self.capacity = capacity
@@ -421,9 +435,9 @@ class DQNAgent(object):
     # self.memory=ReplayBuffer(state_size,action_size,size=800)
     self.memory = PrioritizedReplayBuffer(state_size, action_size, size=800)
     self.gamma=0.95 #discount rate
-    self.adaptive_epsilon=0.3 #exploration rate
-    self.original_epsilon=0.3
-    self.epsilon_min=0.01
+    self.adaptive_epsilon=0.0 #exploration rate
+    self.original_epsilon=0.0
+    self.epsilon_min=0.0
     self.epsilon_decay=0.995
     self.decay_frequency = 2
     self.model=mlp(state_size,action_size)
