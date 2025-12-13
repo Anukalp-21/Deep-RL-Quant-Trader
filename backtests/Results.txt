@@ -1,0 +1,190 @@
+Enter mode (train/test): test
+   RELIANCE_Close  RELIANCE_Volume  log_return_RELIANCE  SMA_20_RELIANCE  \
+0      195.852371         21746801            -0.015342       187.422864   
+1      194.311661         19302710            -0.007898       187.663600   
+2      200.635025         17092333             0.032024       188.324287   
+3      198.751892         14072894            -0.009430       189.316120   
+4      197.660583         12365643            -0.005506       190.058659   
+
+   SMA_ratio_RELIANCE  RSI_14_RELIANCE  MACD_RELIANCE  MACD_signal_RELIANCE  \
+0            1.044976        65.268173       1.929379              0.546098   
+1            1.035425        66.299767       2.014382              0.839755   
+2            1.065370        73.665743       2.562451              1.184294   
+3            1.049841        73.444868       2.812427              1.509921   
+4            1.039998        66.894021       2.889171              1.785771   
+
+   MACD_hist_RELIANCE  Volume_SMA_20_RELIANCE  ...  Volume_SMA_20_NSEI  \
+0            1.383281             16911584.10  ...            168660.0   
+1            1.174627             17510151.30  ...            174070.0   
+2            1.378157             17859570.90  ...            178595.0   
+3            1.302507             17631816.60  ...            179720.0   
+4            1.103400             17214083.15  ...            180195.0   
+
+   Volume_ratio_NSEI  StdDev_NSEI  UpperBand_NSEI  LowerBand_NSEI  \
+0           1.584845   277.048494     9083.554507     7975.360532   
+1           1.206986   281.361232     9112.277493     7986.832566   
+2           1.168566   281.959477     9132.381454     8004.543546   
+3           1.086690   263.804025     9125.888055     8070.671955   
+4           0.963401   237.348038     9103.456086     8154.063934   
+
+   BB_Position_NSEI   Day_sin   Day_cos  Month_sin  Month_cos  
+0          0.752161 -0.433884 -0.900969   0.500000   0.866025  
+1          0.720220  0.000000  1.000000   0.866025   0.500000  
+2          0.666768  0.781831  0.623490   0.866025   0.500000  
+3          0.618857  0.974928 -0.222521   0.866025   0.500000  
+4          0.587361  0.433884 -0.900969   0.866025   0.500000  
+
+[5 rows x 64 columns]
+   RELIANCE_Close  RELIANCE_Volume  log_return_RELIANCE  SMA_20_RELIANCE  \
+0     1077.218018         21772103             0.009538      1131.226025   
+1     1074.524536         22691594            -0.002504      1126.157770   
+2     1068.156494         19347800            -0.005944      1121.201361   
+3     1062.244751         13662663            -0.005550      1116.828119   
+4     1063.180664         24699575             0.000881      1112.604382   
+
+   SMA_ratio_RELIANCE  RSI_14_RELIANCE  MACD_RELIANCE  MACD_signal_RELIANCE  \
+0            0.952257        16.256287     -22.670805            -16.411104   
+1            0.954151        17.913752     -23.668260            -17.862535   
+2            0.952689        19.004868     -24.688009            -19.227630   
+3            0.951126        22.059149     -25.677205            -20.517545   
+4            0.955578        23.024590     -26.084939            -21.631024   
+
+   MACD_hist_RELIANCE  Volume_SMA_20_RELIANCE  ...  Volume_SMA_20_NSEI  \
+0           -6.259701             13146897.40  ...            261720.0   
+1           -5.805724             14015668.35  ...            268830.0   
+2           -5.460379             14600111.75  ...            284040.0   
+3           -5.159660             14820000.35  ...            296785.0   
+4           -4.453915             15373124.15  ...            304495.0   
+
+   Volume_ratio_NSEI  StdDev_NSEI  UpperBand_NSEI  LowerBand_NSEI  \
+0           1.652147   167.531633    18319.138071    17649.011539   
+1           1.481605   174.272859    18305.855581    17608.764145   
+2           1.805732   177.495884    18281.489131    17571.505596   
+3           1.651364   188.566940    18282.003801    17527.736043   
+4           1.392798   187.729292    18273.423525    17522.506358   
+
+   BB_Position_NSEI   Day_sin   Day_cos  Month_sin  Month_cos  
+0         -0.000093  0.000000  1.000000   0.500000   0.866025  
+1          0.076584  0.781831  0.623490   0.500000   0.866025  
+2          0.063093  0.974928 -0.222521   0.866025   0.500000  
+3          0.109595  0.433884 -0.900969   0.866025   0.500000  
+4          0.441519 -0.433884 -0.900969   0.866025   0.500000  
+
+[5 rows x 64 columns]
+Data shape: (1949, 64)
+Price indices: [0, 15, 30]
+Sample prices: [195.85237122 405.07873535 275.37927246]
+/usr/local/lib/python3.12/dist-packages/sklearn/base.py:380: InconsistentVersionWarning: Trying to unpickle estimator StandardScaler from version 1.2.2 when using version 1.6.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/keras/src/saving/saving_lib.py:802: UserWarning: Skipping variable loading for optimizer 'adam', because it has 2 variables whereas the saved optimizer has 20 variables. 
+  saveable.load_own_variables(weights_store.get(inner_path))
+Data shape: (471, 64)
+Price indices: [0, 15, 30]
+Sample prices: [1077.21801758 1432.8807373   509.01263428]
+Episode: 1/100, Portfolio Value: ₹38920.59, Duration: 0:00:01.930688, LR: 0.000000, Epsilon: 0.000,sharpe :1.74,alpha: 0.60,beta: 0.40
+Episode: 2/100, Portfolio Value: ₹33938.29, Duration: 0:00:02.030314, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 3/100, Portfolio Value: ₹34031.37, Duration: 0:00:01.506536, LR: 0.000000, Epsilon: 0.000,sharpe :1.41,alpha: 0.60,beta: 0.40
+Episode: 4/100, Portfolio Value: ₹33944.38, Duration: 0:00:01.548583, LR: 0.000000, Epsilon: 0.000,sharpe :1.36,alpha: 0.60,beta: 0.40
+Episode: 5/100, Portfolio Value: ₹33823.50, Duration: 0:00:01.571686, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 6/100, Portfolio Value: ₹38329.92, Duration: 0:00:01.515967, LR: 0.000000, Epsilon: 0.000,sharpe :1.70,alpha: 0.60,beta: 0.40
+Episode: 7/100, Portfolio Value: ₹38825.46, Duration: 0:00:01.419160, LR: 0.000000, Epsilon: 0.000,sharpe :1.74,alpha: 0.60,beta: 0.40
+Episode: 8/100, Portfolio Value: ₹33857.74, Duration: 0:00:01.432175, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 9/100, Portfolio Value: ₹36463.99, Duration: 0:00:01.550364, LR: 0.000000, Epsilon: 0.000,sharpe :1.63,alpha: 0.60,beta: 0.40
+Episode: 10/100, Portfolio Value: ₹33872.55, Duration: 0:00:01.903975, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 11/100, Portfolio Value: ₹33934.30, Duration: 0:00:01.563592, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 12/100, Portfolio Value: ₹35172.22, Duration: 0:00:01.389355, LR: 0.000000, Epsilon: 0.000,sharpe :1.51,alpha: 0.60,beta: 0.40
+Episode: 13/100, Portfolio Value: ₹33915.81, Duration: 0:00:01.418523, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 14/100, Portfolio Value: ₹38196.57, Duration: 0:00:01.418508, LR: 0.000000, Epsilon: 0.000,sharpe :1.69,alpha: 0.60,beta: 0.40
+Episode: 15/100, Portfolio Value: ₹33844.71, Duration: 0:00:01.332724, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 16/100, Portfolio Value: ₹34109.25, Duration: 0:00:01.334930, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 17/100, Portfolio Value: ₹33771.06, Duration: 0:00:01.357416, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 18/100, Portfolio Value: ₹33839.60, Duration: 0:00:01.611257, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 19/100, Portfolio Value: ₹38775.22, Duration: 0:00:01.851701, LR: 0.000000, Epsilon: 0.000,sharpe :1.73,alpha: 0.60,beta: 0.40
+Episode: 20/100, Portfolio Value: ₹33919.84, Duration: 0:00:01.321025, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 21/100, Portfolio Value: ₹33714.71, Duration: 0:00:01.336605, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 22/100, Portfolio Value: ₹34035.48, Duration: 0:00:01.363890, LR: 0.000000, Epsilon: 0.000,sharpe :1.41,alpha: 0.60,beta: 0.40
+Episode: 23/100, Portfolio Value: ₹38948.03, Duration: 0:00:01.403588, LR: 0.000000, Epsilon: 0.000,sharpe :1.75,alpha: 0.60,beta: 0.40
+Episode: 24/100, Portfolio Value: ₹33816.72, Duration: 0:00:01.388821, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 25/100, Portfolio Value: ₹33867.31, Duration: 0:00:01.340111, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 26/100, Portfolio Value: ₹33891.24, Duration: 0:00:01.449114, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 27/100, Portfolio Value: ₹33865.37, Duration: 0:00:01.822886, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 28/100, Portfolio Value: ₹34013.19, Duration: 0:00:01.855543, LR: 0.000000, Epsilon: 0.000,sharpe :1.41,alpha: 0.60,beta: 0.40
+Episode: 29/100, Portfolio Value: ₹33989.92, Duration: 0:00:01.453512, LR: 0.000000, Epsilon: 0.000,sharpe :1.36,alpha: 0.60,beta: 0.40
+Episode: 30/100, Portfolio Value: ₹33763.79, Duration: 0:00:01.432497, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 31/100, Portfolio Value: ₹33954.95, Duration: 0:00:01.391675, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 32/100, Portfolio Value: ₹33881.69, Duration: 0:00:01.358378, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 33/100, Portfolio Value: ₹25964.88, Duration: 0:00:01.338699, LR: 0.000000, Epsilon: 0.000,sharpe :0.57,alpha: 0.60,beta: 0.40
+Episode: 34/100, Portfolio Value: ₹33787.12, Duration: 0:00:01.357815, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 35/100, Portfolio Value: ₹33893.79, Duration: 0:00:01.452602, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 36/100, Portfolio Value: ₹33825.02, Duration: 0:00:01.869086, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 37/100, Portfolio Value: ₹33635.37, Duration: 0:00:01.680533, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 38/100, Portfolio Value: ₹33794.43, Duration: 0:00:01.383965, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 39/100, Portfolio Value: ₹33774.79, Duration: 0:00:01.383142, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 40/100, Portfolio Value: ₹33915.84, Duration: 0:00:01.332415, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 41/100, Portfolio Value: ₹33698.39, Duration: 0:00:01.337664, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 42/100, Portfolio Value: ₹34018.53, Duration: 0:00:01.358301, LR: 0.000000, Epsilon: 0.000,sharpe :1.41,alpha: 0.60,beta: 0.40
+Episode: 43/100, Portfolio Value: ₹33871.14, Duration: 0:00:01.438396, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 44/100, Portfolio Value: ₹33912.40, Duration: 0:00:01.540156, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 45/100, Portfolio Value: ₹33959.84, Duration: 0:00:01.857175, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 46/100, Portfolio Value: ₹35089.04, Duration: 0:00:01.488733, LR: 0.000000, Epsilon: 0.000,sharpe :1.51,alpha: 0.60,beta: 0.40
+Episode: 47/100, Portfolio Value: ₹34039.09, Duration: 0:00:01.399744, LR: 0.000000, Epsilon: 0.000,sharpe :1.41,alpha: 0.60,beta: 0.40
+Episode: 48/100, Portfolio Value: ₹33895.17, Duration: 0:00:01.343537, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 49/100, Portfolio Value: ₹33695.33, Duration: 0:00:01.385983, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 50/100, Portfolio Value: ₹33788.94, Duration: 0:00:01.329919, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 51/100, Portfolio Value: ₹33769.86, Duration: 0:00:01.315133, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 52/100, Portfolio Value: ₹33777.69, Duration: 0:00:01.362345, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 53/100, Portfolio Value: ₹33975.80, Duration: 0:00:01.665115, LR: 0.000000, Epsilon: 0.000,sharpe :1.41,alpha: 0.60,beta: 0.40
+Episode: 54/100, Portfolio Value: ₹33830.01, Duration: 0:00:01.861940, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 55/100, Portfolio Value: ₹33752.32, Duration: 0:00:01.283545, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 56/100, Portfolio Value: ₹33813.60, Duration: 0:00:01.340181, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 57/100, Portfolio Value: ₹35202.22, Duration: 0:00:01.344119, LR: 0.000000, Epsilon: 0.000,sharpe :1.50,alpha: 0.60,beta: 0.40
+Episode: 58/100, Portfolio Value: ₹33860.90, Duration: 0:00:01.322030, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 59/100, Portfolio Value: ₹38824.03, Duration: 0:00:01.348359, LR: 0.000000, Epsilon: 0.000,sharpe :1.73,alpha: 0.60,beta: 0.40
+Episode: 60/100, Portfolio Value: ₹33715.46, Duration: 0:00:01.467748, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 61/100, Portfolio Value: ₹33764.52, Duration: 0:00:01.372318, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 62/100, Portfolio Value: ₹33851.89, Duration: 0:00:01.644471, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 63/100, Portfolio Value: ₹33838.39, Duration: 0:00:01.840350, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 64/100, Portfolio Value: ₹38174.93, Duration: 0:00:01.405962, LR: 0.000000, Epsilon: 0.000,sharpe :1.69,alpha: 0.60,beta: 0.40
+Episode: 65/100, Portfolio Value: ₹33687.58, Duration: 0:00:01.374098, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 66/100, Portfolio Value: ₹38164.01, Duration: 0:00:01.309640, LR: 0.000000, Epsilon: 0.000,sharpe :1.68,alpha: 0.60,beta: 0.40
+Episode: 67/100, Portfolio Value: ₹34031.97, Duration: 0:00:01.341968, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 68/100, Portfolio Value: ₹34110.62, Duration: 0:00:01.410839, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 69/100, Portfolio Value: ₹33733.63, Duration: 0:00:01.335864, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 70/100, Portfolio Value: ₹33884.25, Duration: 0:00:01.371447, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 71/100, Portfolio Value: ₹33912.52, Duration: 0:00:01.731882, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 72/100, Portfolio Value: ₹26091.20, Duration: 0:00:01.733215, LR: 0.000000, Epsilon: 0.000,sharpe :0.59,alpha: 0.60,beta: 0.40
+Episode: 73/100, Portfolio Value: ₹34038.73, Duration: 0:00:01.329240, LR: 0.000000, Epsilon: 0.000,sharpe :1.41,alpha: 0.60,beta: 0.40
+Episode: 74/100, Portfolio Value: ₹33757.22, Duration: 0:00:01.298110, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 75/100, Portfolio Value: ₹33590.50, Duration: 0:00:01.347028, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 76/100, Portfolio Value: ₹33949.57, Duration: 0:00:01.334207, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 77/100, Portfolio Value: ₹26103.90, Duration: 0:00:01.455927, LR: 0.000000, Epsilon: 0.000,sharpe :0.59,alpha: 0.60,beta: 0.40
+Episode: 78/100, Portfolio Value: ₹35086.72, Duration: 0:00:01.512703, LR: 0.000000, Epsilon: 0.000,sharpe :1.50,alpha: 0.60,beta: 0.40
+Episode: 79/100, Portfolio Value: ₹33695.82, Duration: 0:00:01.409200, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 80/100, Portfolio Value: ₹33886.18, Duration: 0:00:01.805347, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 81/100, Portfolio Value: ₹38156.60, Duration: 0:00:01.546011, LR: 0.000000, Epsilon: 0.000,sharpe :1.68,alpha: 0.60,beta: 0.40
+Episode: 82/100, Portfolio Value: ₹33759.25, Duration: 0:00:01.347026, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 83/100, Portfolio Value: ₹33649.29, Duration: 0:00:01.331869, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 84/100, Portfolio Value: ₹33966.50, Duration: 0:00:01.419776, LR: 0.000000, Epsilon: 0.000,sharpe :1.36,alpha: 0.60,beta: 0.40
+Episode: 85/100, Portfolio Value: ₹33851.63, Duration: 0:00:01.316334, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 86/100, Portfolio Value: ₹32761.55, Duration: 0:00:01.385189, LR: 0.000000, Epsilon: 0.000,sharpe :1.30,alpha: 0.60,beta: 0.40
+Episode: 87/100, Portfolio Value: ₹33927.10, Duration: 0:00:01.312144, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 88/100, Portfolio Value: ₹33646.55, Duration: 0:00:01.399711, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 89/100, Portfolio Value: ₹33765.68, Duration: 0:00:01.780725, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 90/100, Portfolio Value: ₹33814.20, Duration: 0:00:01.528948, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 91/100, Portfolio Value: ₹33748.56, Duration: 0:00:01.345378, LR: 0.000000, Epsilon: 0.000,sharpe :1.38,alpha: 0.60,beta: 0.40
+Episode: 92/100, Portfolio Value: ₹33958.21, Duration: 0:00:01.395722, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 93/100, Portfolio Value: ₹26141.40, Duration: 0:00:01.294299, LR: 0.000000, Epsilon: 0.000,sharpe :0.59,alpha: 0.60,beta: 0.40
+Episode: 94/100, Portfolio Value: ₹33644.49, Duration: 0:00:01.306140, LR: 0.000000, Epsilon: 0.000,sharpe :1.37,alpha: 0.60,beta: 0.40
+Episode: 95/100, Portfolio Value: ₹34000.23, Duration: 0:00:01.441612, LR: 0.000000, Epsilon: 0.000,sharpe :1.41,alpha: 0.60,beta: 0.40
+Episode: 96/100, Portfolio Value: ₹34983.99, Duration: 0:00:01.477312, LR: 0.000000, Epsilon: 0.000,sharpe :1.50,alpha: 0.60,beta: 0.40
+Episode: 97/100, Portfolio Value: ₹33966.75, Duration: 0:00:01.527395, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 98/100, Portfolio Value: ₹33667.28, Duration: 0:00:01.857314, LR: 0.000000, Epsilon: 0.000,sharpe :1.39,alpha: 0.60,beta: 0.40
+Episode: 99/100, Portfolio Value: ₹33877.98, Duration: 0:00:01.476558, LR: 0.000000, Epsilon: 0.000,sharpe :1.40,alpha: 0.60,beta: 0.40
+Episode: 100/100, Portfolio Value: ₹39002.88, Duration: 0:00:01.363385, LR: 0.000000, Epsilon: 0.000,sharpe :1.75,alpha: 0.60,beta: 0.40
+
+Performance Summary:
+Average Portfolio Value: ₹34139.54
+Minimum Portfolio Value: ₹25964.88
+Maximum Portfolio Value: ₹39002.88
+Final Portfolio Value: ₹39002.88
