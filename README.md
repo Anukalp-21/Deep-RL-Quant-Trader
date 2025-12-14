@@ -53,7 +53,7 @@ To prevent "paper trading bias," the environment models real-world Indian market
 └── README.md
 
 ## ⚡ How to Run
-
+```text
 ### 1. Prerequisite
 Ensure you have Python 3.8+ installed.
 
