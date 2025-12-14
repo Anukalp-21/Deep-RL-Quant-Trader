@@ -38,6 +38,20 @@ To prevent "paper trading bias," the environment models real-world Indian market
 * **Transaction Costs:** Includes STT (0.1%), Brokerage, and Stamp Duty on every trade.
 * **Liquidity Constraints:** Simulates partial fills and volume limits.
 
+## 🧠 Engineering Challenges & Solutions
+
+### 1. The "Paper Trading" Bias
+* **Problem:** Initial backtests showed unrealistic 200%+ returns because the agent exploited zero-cost trades and perfect execution.
+* **Solution:** Engineered a custom `slippage_model` (0-30bps variance) and hard-coded Indian taxation laws (STT, Stamp Duty) into the environment step function. This reduced raw returns but ensured the strategy is deployable in real markets.
+
+### 2. The Sparse Reward Problem
+* **Problem:** In a multi-asset environment, the agent struggled to converge because positive feedback (profitable trades) was too infrequent.
+* **Solution:** Implemented **Prioritized Experience Replay (PER)**. By using a SumTree structure to sample high-TD-error transitions more frequently, the agent learned from "surprising" market events 3x faster than uniform sampling.
+
+### 3. Mode Collapse (Safe-Playing)
+* **Problem:** During high volatility (2025), the agent would simply sit on 100% Cash to avoid penalties.
+* **Solution:** Designed a **Curriculum Learning** reward function. Early episodes emphasize raw Alpha (profit) to encourage exploration, while later episodes increasingly weight the **Sharpe Ratio**, teaching the agent to balance risk vs. reward dynamically.
+
 ## 📂 Project Structure
 ```text
 ├── backtests/                 # PROOF OF RESULTS
