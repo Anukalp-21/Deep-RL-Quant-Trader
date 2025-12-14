@@ -62,8 +62,10 @@ Clone the repo and install dependencies:
 git clone [https://github.com/Anukalp-21/Deep-RL-Quant-Trader.git](https://github.com/Anukalp-21/Deep-RL-Quant-Trader.git)
 cd Deep-RL-Quant-Trader
 pip install -r requirements.txt
+```
 
 ### 3. Execution
 To start the training or testing loop:
 ```bash
 python main.py
+```
