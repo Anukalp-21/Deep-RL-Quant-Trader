@@ -4,11 +4,11 @@ from datetime import datetime
 import itertools
 from collections import deque
 def get_data():
-  df=pd.read_csv('/content/MultiStock (3).csv')
+  df=pd.read_csv('Data1/Train 2015-22.csv')
   print(df.head())
   return df.values
 def get_test_data():
-  df=pd.read_csv('/content/MultiStock_test1.csv')
+  df=pd.read_csv('Data1/Test 2023-24.csv')
   print(df.head())
   return df.values
 # This list contains the names of all columns we want the agent to see.
@@ -36,64 +36,14 @@ rsi_columns = [
         'RSI_14_RELIANCE','RSI_14_INFY','RSI_14_SBIN'
 ]
 def get_feature_indices():
-  df=pd.read_csv('/content/MultiStock (3).csv')
+  df=pd.read_csv('Data1/Test 2023-24.csv')
   final_feature_indices = [df.columns.get_loc(c) for c in feature_columns]
   return final_feature_indices
 def get_rsi_indices():
-  df=pd.read_csv('/content/MultiStock (3).csv')
+  df=pd.read_csv('Data1/Test 2023-24.csv')
   final_feature_indices = [df.columns.get_loc(c) for c in rsi_columns]
   return final_feature_indices
-class SumTree:
-    def __init__(self, capacity):
-        self.capacity = capacity
-        self.tree = np.zeros(2 * capacity - 1)
-        self.data = np.zeros(capacity, dtype=object)
-        self.write = 0
-        self.n_entries = 0
 
-    def _propagate(self, idx, change):
-        parent = (idx - 1) // 2
-        self.tree[parent] += change
-        if parent != 0:
-            self._propagate(parent, change)
-
-    def _retrieve(self, idx, s):
-        left = 2 * idx + 1
-        right = left + 1
-
-        if left >= len(self.tree):
-            return idx
-
-        if s <= self.tree[left]:
-            return self._retrieve(left, s)
-        else:
-            return self._retrieve(right, s - self.tree[left])
-
-    def total(self):
-        return self.tree[0]
-
-    def add(self, p, data):
-        idx = self.write + self.capacity - 1
-
-        self.data[self.write] = data
-        self.update(idx, p)
-
-        self.write += 1
-        if self.write >= self.capacity:
-            self.write = 0
-        if self.n_entries < self.capacity:
-            self.n_entries += 1
-
-
-    # In the SumTree class
-    def update(self, idx, p):
-        change = p - self.tree[idx]
-        self.tree[idx] = p
-        self._propagate(idx, change)
-    def get(self, s):
-        idx = self._retrieve(0, s)
-        data_idx = idx - self.capacity + 1
-        return idx, self.tree[idx], self.data[data_idx]
 class MultiStockEnv:
   """
   A 3-stock trading environment.

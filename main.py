@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import os
 import pickle
 from datetime import datetime
@@ -6,9 +7,37 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from src.environment import MultiStockEnv
 from src.agent import DQNAgent
+
+def get_data():
+  df=pd.read_csv('Data1/Train 2015-22.csv')
+  print(df.head())
+  return df.values
+
+def get_test_data():
+  df=pd.read_csv('Data1/Test 2023-24.csv')
+  print(df.head())
+  return df.values
+
 def make_dir(directory):
   if not os.path.exists(directory):
     os.makedirs(directory)
+
+def get_scaler(env):
+  states=[]
+  for _ in range(env.n_step):
+    action=np.random.choice(env.action_space)
+    # Get the raw state from the environment
+    current_state = env._get_current_state()
+    # Append the raw state (which should be 1D) to the states list
+    states.append(current_state)
+    # Take a step to advance the environment, but we don't use the output state here for fitting
+    state,reward,done,info=env.step(action)
+    if done: # Stop if the environment is done
+      break
+  scaler=StandardScaler()
+  scaler.fit(states)
+  return scaler
+
 def play_one_episode(agent, scaler, env, is_train, batch_size):
     curr_epsilon = agent.epsilon
     if is_train == 'test':
@@ -73,8 +102,8 @@ def get_alpha_beta(portfolio_val, episode, initial_investment, total_episodes):
     return alpha, beta
 if __name__ == '__main__':
     # Config
-    models_folder = 'rl_trader_models'
-    rewards_folder = 'rl_trader_rewards'
+    models_folder = 'models'
+    rewards_folder = 'backtests'
     model_file = 'dqn.weights.h5'
     target_file='target.weights.h5'
     norm_file = 'normalization_stats.pkl'  # NEW: File for normalization stats
@@ -215,7 +244,3 @@ if __name__ == '__main__':
     plt.grid(True)
     plt.savefig(f'{rewards_folder}/{mode}_results.png')
     plt.show()
-
-
-from IPython.display import FileLinks
-FileLinks('rl_trader_models')
