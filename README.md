@@ -32,7 +32,7 @@ Unlike standard backtests that run once, this system was tested on **100 indepen
 * **Optimization:** **Prioritized Experience Replay (PER)** using SumTree data structures to focus training on high-error events.
 * **Risk Management:** Sharpe Ratio optimization + Maximum Drawdown penalties using Curriculum Learning.
 
-## 📉 Realistic Market Simulation (Tier 0 Features)
+## 📉 Realistic Market Simulation
 To prevent "paper trading bias," the environment models real-world Indian market friction:
 * **Stochastic Slippage:** 70% probability of adverse execution (0-30 bps).
 * **Transaction Costs:** Includes STT (0.1%), Brokerage, and Stamp Duty on every trade.
