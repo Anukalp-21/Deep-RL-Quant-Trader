@@ -51,9 +51,8 @@ To prevent "paper trading bias," the environment models real-world Indian market
 │   └── main.py                # Training & Testing Loop
 ├── models/                    # Pre-trained Weights
 └── README.md
-
-## ⚡ How to Run
 ```text
+## ⚡ How to Run
 ### 1. Prerequisite
 Ensure you have Python 3.8+ installed.
 
