@@ -4,11 +4,11 @@ from datetime import datetime
 import itertools
 from collections import deque
 def get_data():
-  df=pd.read_csv('Data1/Train 2015-22.csv')
+  df=pd.read_csv('data/Train 2015-22.csv')
   print(df.head())
   return df.values
 def get_test_data():
-  df=pd.read_csv('Data1/Test 2023-24.csv')
+  df=pd.read_csv('data/Test 2023-24.csv')
   print(df.head())
   return df.values
 # This list contains the names of all columns we want the agent to see.
@@ -36,11 +36,11 @@ rsi_columns = [
         'RSI_14_RELIANCE','RSI_14_INFY','RSI_14_SBIN'
 ]
 def get_feature_indices():
-  df=pd.read_csv('Data1/Test 2023-24.csv')
+  df=pd.read_csv('data/Test 2023-24.csv')
   final_feature_indices = [df.columns.get_loc(c) for c in feature_columns]
   return final_feature_indices
 def get_rsi_indices():
-  df=pd.read_csv('Data1/Test 2023-24.csv')
+  df=pd.read_csv('data/Test 2023-24.csv')
   final_feature_indices = [df.columns.get_loc(c) for c in rsi_columns]
   return final_feature_indices
 

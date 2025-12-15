@@ -9,12 +9,12 @@ from src.environment import MultiStockEnv
 from src.agent import DQNAgent
 
 def get_data():
-  df=pd.read_csv('Data1/Train 2015-22.csv')
+  df=pd.read_csv('data/Train 2015-22.csv')
   print(df.head())
   return df.values
 
 def get_test_data():
-  df=pd.read_csv('Data1/Test 2023-24.csv')
+  df=pd.read_csv('data/Test 2023-24.csv')
   print(df.head())
   return df.values
 

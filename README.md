@@ -21,11 +21,20 @@ The agent was rigorously validated using a **Monte Carlo Simulation (N=100 Episo
 > **Verification:** See `backtests/` folder for detailed logs and distribution histograms.
 
 ## 📊 Monte Carlo Validation
+
 Unlike standard backtests that run once, this system was tested on **100 independent episodes** to map the probability distribution of returns.
 
-* **Bull Market Distribution:** consistently converges on high returns (~34k portfolio value).
-* **Stress Test Distribution:** Exhibits bimodal behavior, intelligently switching to "Cash Preservation" mode during high volatility to protect gains.
+### 1. Bull Market Performance (2023-24)
+**Result:** 70% Total Return (₹20k → ₹34k) on unseen test data. The distribution shows a strong positive skew, indicating the agent effectively captures large uptrends while limiting downside risk.
 
+![Bull Market Distribution](backtests/2023-24_Bull_Market_Performance.png)
+
+> **Note on Variance:** The variance in portfolio values (shown above) is intentional. To simulate realistic **"Adverse Selection"** in HFT execution, the environment is configured with a **70% probability of unfavorable slippage** (0-30bps). The agent's ability to maintain a Sharpe Ratio of 1.4 despite this hostile asymmetry demonstrates robustness against execution noise.
+
+### 2. Stress Test / Volatile Regime (2025)
+**Result:** The agent exhibits **Bimodal Behavior**, intelligently switching to "Cash Preservation" mode during high volatility to protect gains.
+
+![Stress Test Distribution](backtests/2025_Stress_Test_Volatile_Regime.png)
 ## 🛠️ Tech Stack & Architecture
 * **Core:** Python, TensorFlow, Keras, Gymnasium
 * **Model:** Double DQN (DDQN) with **LSTM layers** for time-series memory.
