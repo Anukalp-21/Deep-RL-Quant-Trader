@@ -43,20 +43,20 @@ Unlike standard backtests that run once, this system was tested on **100 indepen
 
 ## 📐 Mathematical Framework
 
-The agent optimizes a custom **Regime-Aware Reward Function** ($R_t$) that dynamically balances profit, risk stability, and opportunity cost based on market momentum (RSI).
+The agent optimizes a custom **Regime-Aware Reward Function** that dynamically balances profit, risk stability, and opportunity cost based on market momentum (RSI).
 
 **Total Reward Equation:**
-$$R_t = \alpha (100 \cdot r_t) + \beta \tanh(\text{Sharpe}_t) - P_{\text{cash}} - P_{\text{dd}}$$
+> Rₜ = α(100 · rₜ) + β · tanh(Sharpeₜ) - P_cash - P_dd
 
-Where:
-* **Returns ($r_t$):** Linear scaled portfolio returns to normalize gradients.
-* **Risk Stability:** $\tanh(\text{Sharpe}_t)$ squashes the Sharpe Ratio to $[-1, 1]$, preventing gradient explosions during volatile epochs.
-* **Drawdown Penalty ($P_{\text{dd}}$):** $1.5 \cdot \text{max}(0, \frac{V_{\text{peak}} - V_t}{V_{\text{peak}}})$ enforces strict risk management.
+**Where:**
+* **rₜ (Returns):** Linear scaled portfolio returns.
+* **tanh(Sharpeₜ):** Hyperbolic tangent squashes the Sharpe Ratio to range [-1, 1], preventing gradient explosions during volatile epochs.
+* **P_dd (Drawdown Penalty):** Enforces strict risk management by penalizing drops from peak portfolio value.
 
-**Dynamic Opportunity Cost ($P_{\text{cash}}$):**
+**Dynamic Opportunity Cost (P_cash):**
 The agent is penalized for holding cash *only* when the market is bullish (High RSI), forcing it to deploy capital efficiently during uptrends.
 
-$$P_{\text{cash}} = 2.5 \cdot \frac{C_t}{V_t} \cdot \left(\frac{\text{RSI}_{\text{weighted}} - 50}{50}\right)$$
+> P_cash = 2.5 · (Cash / Value) · ((RSI_weighted - 50) / 50)
 
 *(The agent is punished for hoarding cash when RSI > 50, but encouraged to hold cash when RSI < 50)*
 
