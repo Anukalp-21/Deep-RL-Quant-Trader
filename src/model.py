@@ -5,11 +5,11 @@ from tensorflow.keras.optimizers import Adam
 def LSTM_Model(input_dim, n_action):
     i = Input(shape=(input_dim))
     x = LSTM(32)(i)
-    x = Dropout(0.7)(x)
+    x = Dropout(0.21)(x)
     x = Dense(16)(x)
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    x = Dropout(0.7)(x)
+    x = Dropout(0.21)(x)
     x = Dense(n_action)(x)
     model = Model(i, x)
     optimizer = Adam(learning_rate=3e-4, clipnorm=1.0)

@@ -14,7 +14,7 @@ def get_data():
   return df.values
 
 def get_test_data():
-  df=pd.read_csv('Data1/Test 2025.csv')
+  df=pd.read_csv('Data1/Test 2023-24.csv')
   print(df.head())
   return df.values
 
