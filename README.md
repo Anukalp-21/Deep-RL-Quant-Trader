@@ -54,7 +54,7 @@ To prevent "paper trading bias," the environment models real-world Indian market
 
 ### 4. Mode Collapse (Safe-Playing)
 * **Problem:** During high volatility (2025), the agent would simply sit on 100% Cash to avoid penalties.
-* **Solution:** Designed a **Curriculum Learning** reward function.I also introduced cash penalty for holding cash. Early episodes emphasize raw Alpha (profit) to encourage exploration, while later episodes increasingly weight the **Sharpe Ratio**, teaching the agent to balance risk vs. reward dynamically.
+* **Solution:** Designed a **Curriculum Learning** reward function and introduced a **holding penalty** for excessive cash positions. Early episodes emphasize raw Alpha (profit) to encourage exploration, while later episodes increasingly weight the **Sharpe Ratio**, teaching the agent to balance risk vs. reward dynamically.
  
 ## 📂 Project Structure
 ```text
@@ -77,7 +77,7 @@ Ensure you have Python 3.8+ installed.
 ### 2. Installation
 Clone the repo and install dependencies:
 ```bash
-git clone [https://github.com/Anukalp-21/Deep-RL-Quant-Trader.git](https://github.com/Anukalp-21/Deep-RL-Quant-Trader.git)
+git clone https://github.com/Anukalp-21/Deep-RL-Quant-Trader.git
 cd Deep-RL-Quant-Trader
 pip install -r requirements.txt
 ```
