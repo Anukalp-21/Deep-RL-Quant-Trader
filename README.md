@@ -43,16 +43,22 @@ Unlike standard backtests that run once, this system was tested on **100 indepen
 
 ## 📐 Mathematical Framework
 
-The agent optimizes the **Bellman Equation** using a custom reward function designed to balance raw returns against volatility.
+The agent optimizes a custom **Regime-Aware Reward Function** ($R_t$) that dynamically balances profit, risk stability, and opportunity cost based on market momentum (RSI).
 
-**Reward Function ($R_t$):**
-$$R_t = \alpha \cdot \ln\left(\frac{V_t}{V_{t-1}}\right) - \beta \cdot \text{Drawdown}_t$$
+**Total Reward Equation:**
+$$R_t = \alpha (100 \cdot r_t) + \beta \tanh(\text{Sharpe}_t) - P_{\text{cash}} - P_{\text{dd}}$$
 
 Where:
-* $V_t$ = Portfolio Value at step $t$
-* $\alpha$ = Profit scaling factor
-* $\beta$ = Risk penalty (dynamic based on volatility regime)
-* The agent learns to maximize $Q(s, a) = \mathbb{E}[R_{t+1} + \gamma \max_{a'} Q(s', a')]$
+* **Returns ($r_t$):** Linear scaled portfolio returns to normalize gradients.
+* **Risk Stability:** $\tanh(\text{Sharpe}_t)$ squashes the Sharpe Ratio to $[-1, 1]$, preventing gradient explosions during volatile epochs.
+* **Drawdown Penalty ($P_{\text{dd}}$):** $1.5 \cdot \text{max}(0, \frac{V_{\text{peak}} - V_t}{V_{\text{peak}}})$ enforces strict risk management.
+
+**Dynamic Opportunity Cost ($P_{\text{cash}}$):**
+The agent is penalized for holding cash *only* when the market is bullish (High RSI), forcing it to deploy capital efficiently during uptrends.
+
+$$P_{\text{cash}} = 2.5 \cdot \frac{C_t}{V_t} \cdot \left(\frac{\text{RSI}_{\text{weighted}} - 50}{50}\right)$$
+
+*(The agent is punished for hoarding cash when RSI > 50, but encouraged to hold cash when RSI < 50)*
 
 ## 📉 Realistic Market Simulation
 To prevent "paper trading bias," the environment models real-world Indian market friction:
