@@ -41,6 +41,19 @@ Unlike standard backtests that run once, this system was tested on **100 indepen
 * **Optimization:** **Prioritized Experience Replay (PER)** using SumTree data structures to focus training on high-error events.
 * **Risk Management:** Sharpe Ratio optimization + Maximum Drawdown penalties using Curriculum Learning.
 
+## 📐 Mathematical Framework
+
+The agent optimizes the **Bellman Equation** using a custom reward function designed to balance raw returns against volatility.
+
+**Reward Function ($R_t$):**
+$$R_t = \alpha \cdot \ln\left(\frac{V_t}{V_{t-1}}\right) - \beta \cdot \text{Drawdown}_t$$
+
+Where:
+* $V_t$ = Portfolio Value at step $t$
+* $\alpha$ = Profit scaling factor
+* $\beta$ = Risk penalty (dynamic based on volatility regime)
+* The agent learns to maximize $Q(s, a) = \mathbb{E}[R_{t+1} + \gamma \max_{a'} Q(s', a')]$
+
 ## 📉 Realistic Market Simulation
 To prevent "paper trading bias," the environment models real-world Indian market friction:
 * **Stochastic Slippage:** 70% probability of adverse execution (0-30 bps).
@@ -67,16 +80,21 @@ To prevent "paper trading bias," the environment models real-world Indian market
  
 ## 📂 Project Structure
 ```text
-├── backtests/                 # PROOF OF RESULTS
+├── backtests/                 # Validation Artifacts
 │   ├── 2023-24_Bull_Market_Performance.png
 │   ├── 2025_Stress_Test_Volatile_Regime.png
 │   ├── Logs_2023-24_Bull_Market.txt
-│   └── Logs_2025_Stress_Test.txt
-├── src/                       # Source Code
+│   ├── Logs_2025_Stress_Test.txt
+│   └── Test_Data.csv
+├── data/                      # Historical Market Data (OHLCV)
+├── models/                    # Serialized Agents & Scalers
+├── src/                       # Core Strategy Logic
+│   ├── __init__.py
 │   ├── agent.py               # DDQN Agent (TensorFlow + PER)
-│   ├── environment.py         # Custom Multi-Stock Gym Environment
-│   └── main.py                # Training & Testing Loop
-├── models/                    # Pre-trained Weights
+│   ├── environment.py         # Custom Gymnasium Environment
+│   └── model.py               # LSTM Network Architecture
+├── main.py                    # ENTRY POINT (Training & Testing Loop)
+├── requirements.txt           # Python Dependencies
 └── README.md
 ```
 ## ⚡ How to Run
