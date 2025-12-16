@@ -45,17 +45,24 @@ class SumTree:
         if self.n_entries < self.capacity:
             self.n_entries += 1
 
-
-    # In the SumTree class
     def update(self, idx, p):
         change = p - self.tree[idx]
         self.tree[idx] = p
         self._propagate(idx, change)
+
     def get(self, s):
         idx = self._retrieve(0, s)
         data_idx = idx - self.capacity + 1
         return idx, self.tree[idx], self.data[data_idx]
 class PrioritizedReplayBuffer:
+    """
+    Implementation of Prioritized Experience Replay (PER).
+
+    Key parameters:
+    - alpha (a): Controls how much prioritization is used (0 = uniform, 1 = full).
+    - beta: Controls importance sampling weights (anneals to 1.0).
+    """
+    
     e = 0.01
     a = 0.6
     beta = 0.4
@@ -73,7 +80,6 @@ class PrioritizedReplayBuffer:
         return (np.abs(error) + self.e) ** self.a
 
     def store(self, error, obs, act, rew, next_obs, done):
-        # Ensure data is stored as a tuple
         data = (obs, act, rew, next_obs, done)
         p = self._get_priority(error)
         self.tree.add(p, data)
@@ -99,16 +105,13 @@ class PrioritizedReplayBuffer:
             batch['d'].append(done)
             batch['indices'].append(idx)
 
-            # Importance sampling weight
             sample_prob = p / self.tree.total()
             weight = (self.size * sample_prob) ** -self.beta
             batch['weights'].append(weight)
 
-        # Normalize weights
         max_weight = max(batch['weights'])
         batch['weights'] = [w / max_weight for w in batch['weights']]
 
-        # Convert to arrays
         batch['s'] = np.array(batch['s'])
         batch['s2'] = np.array(batch['s2'])
         batch['a'] = np.array(batch['a'])
@@ -127,72 +130,26 @@ class DQNAgent(object):
   def __init__(self,state_size,action_size):
     self.state_size=state_size
     self.action_size=action_size
-    # self.memory=ReplayBuffer(state_size,action_size,size=800)
-    self.memory = PrioritizedReplayBuffer(state_size[1], action_size, size=70000) # Correct memory state_size
-    self.gamma=0.99 #discount rate
+    self.memory = PrioritizedReplayBuffer(state_size[1], action_size, size=70000)
+    self.gamma=0.99
     self.epsilon=1
     self.epsilon_min=0.01
     self.epsilon_decay= 0.99975
     self.decay_frequency = 1
     self.model=LSTM_Model(state_size,action_size)
-    self.target_model = LSTM_Model(state_size, action_size)  # Add this
+    self.target_model = LSTM_Model(state_size, action_size) 
     self.update_target()
-  # Pre-compile prediction function
     self.predict_fn = tf.function(
         lambda x: self.model(x),
         input_signature=[tf.TensorSpec(shape=(None, state_size[0],state_size[1]), dtype=tf.float32)]
     )
   def update_replay_memory(self,state,action,reward,next_state,done):
     self.memory.store(1.0, state, action, reward, next_state, done)
-  # def adapt_epsilon(self, portfolio_value, initial_investment, episode,
-  #                min_epsilon=0.01, max_epsilon=1.0,
-  #                danger_zone=0.7, recovery_zone=0.9):
-  #   """
-  #   Adaptive ε-greedy policy with portfolio-aware adjustment
 
-  #   Args:
-  #       portfolio_value: Current portfolio value
-  #       initial_investment: Starting capital
-  #       episode: Current episode number
-  #       min_epsilon: Minimum exploration rate (default: 1%)
-  #       max_epsilon: Maximum exploration rate (default: 100%)
-  #       danger_zone: Portfolio threshold for conservative mode (default: 70%)
-  #       recovery_zone: Portfolio threshold for normal mode (default: 90%)
-  #   """
-  #   # Dynamic baseline adjusts with training progress
-  #   progress = min(1.0, episode / 2000)  # Adjust denominator based on total episodes
-    # dynamic_threshold = danger_zone + (recovery_zone - danger_zone) * (1 - progress)
-
-    # # Portfolio performance assessment
-    # performance_ratio = portfolio_value / initial_investment
-
-    # if performance_ratio < dynamic_threshold:
-    #     # Conservative mode - slower decay when performing poorly
-    #     decay_rate = 0.997
-    #     self.epsilon = max(min_epsilon,
-    #                       self.epsilon * decay_rate)
-    # else:
-    #     # Normal mode - standard decay
-    #     decay_rate = 0.99
-    #     self.epsilon = max(min_epsilon,
-    #                       self.epsilon * decay_rate)
-
-    # # Episode-based override (ensure eventual exploitation)
-    # self.epsilon = max(min_epsilon,
-    #                   min(max_epsilon,
-    #                      self.epsilon * (0.9995 ** episode)))
   def decay_epsilon(self):
     if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
 
-  # def adapt_epsilon(self, portfolio_value, initial_investment, episode):
-  #   baseline = 0.9 - (episode / 10000)  # Gradually relax the threshold
-  #   if portfolio_value < initial_investment * max(0.7, baseline):
-  #       self.epsilon = min(0.3, self.epsilon)  # More aggressive reduction
-  #       self.epsilon_decay = 0.998  # Slower decay during trouble
-  #   else:
-  #       self.epsilon *= self.epsilon_decay
-  #       self.epsilon_decay = 0.995  # Normal decay
   def act(self,state):
     if np.random.rand()<=self.epsilon:
       return np.random.choice(self.action_size)
@@ -201,8 +158,6 @@ class DQNAgent(object):
     return np.argmax(act_values[0])
   def update_target(self):
     self.target_model.set_weights(self.model.get_weights())
-  # In DQNAgent.replay()
-  # In your DQNAgent class
 
   @tf.function
   def _train_step(self, states, actions, rewards, next_states, done, weights):
@@ -222,7 +177,6 @@ class DQNAgent(object):
     self.model.optimizer.apply_gradients(zip(grads, self.model.trainable_variables))
 
     return td_errors
-  # In your DQNAgent class
 
   def replay(self, batch_size=256):
     if self.memory.size < batch_size:
@@ -237,11 +191,7 @@ class DQNAgent(object):
     weights = tf.convert_to_tensor(minibatch['weights'], dtype=tf.float32)
     indices = minibatch['indices']
 
-    # Call the new, decorated function to perform the training step
     td_errors = self._train_step(states, actions, rewards, next_states, done, weights)
-
-    # Now, we are outside the @tf.function scope, so calling .numpy() is safe
-    # Ensure td_errors.numpy() is always iterable
     self.memory.update_priorities(indices, td_errors.numpy().tolist() if isinstance(td_errors.numpy(), np.ndarray) else [td_errors.numpy()])
   def load(self, name):
     self.model.load_weights(name)
