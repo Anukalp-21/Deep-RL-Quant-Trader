@@ -4,7 +4,7 @@
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)
 ![Status](https://img.shields.io/badge/Status-Validated-success)
 
-A high-frequency quantitative trading agent powered by **Double DQN (DDQN)** and **LSTM** networks. This project implements a custom Gymnasium environment to autonomously trade a multi-asset portfolio (RELIANCE, INFY, SBIN) using advanced policy optimization and realistic market simulation.
+A **systematic quantitative trading agent** powered by **Double DQN (DDQN)** and **LSTM** networks. This project implements a custom Gymnasium environment to autonomously trade a multi-asset portfolio (RELIANCE, INFY, SBIN) using advanced policy optimization and realistic market simulation.
 
 ## 🚀 Key Performance Highlights
 
