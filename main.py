@@ -7,14 +7,19 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from src.environment import MultiStockEnv
 from src.agent import DQNAgent
+import argparse
 
-def get_data():
-  df=pd.read_csv('data/Train 2015-22.csv')
-  print(df.head())
+def get_train_data():
+  df=pd.read_csv('data/Train_2015_2021.csv')
   return df.values
-
+def get_val_bear_data():
+  df=pd.read_csv('data/Val_2022_Bear.csv')
+  return df.values
+def get_val_bull_data():
+    df=pd.read_csv('data/Val_2023_2024_Bull.csv') 
+    return df.values
 def get_test_data():
-  df=pd.read_csv('data/Test 2023-24.csv')
+  df=pd.read_csv('data/Test_2025.csv')
   print(df.head())
   return df.values
 
@@ -24,11 +29,12 @@ def make_dir(directory):
 
 def get_scaler(env):
   states=[]
+  env.reset(mode='test')
   for _ in range(env.n_step):
     action=np.random.choice(env.action_space)
     current_state = env._get_current_state()
     states.append(current_state)
-    state,reward,done,info=env.step(action)
+    state,reward,done,info=env.step(action,mode='test')
     if done:
       break
   scaler=StandardScaler()
