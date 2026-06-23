@@ -32,7 +32,7 @@ def get_scaler(env):
   env.reset(mode='test')
   for _ in range(env.n_step):
     action=np.random.choice(env.action_space)
-    current_state = env._get_current_state()
+    current_state=env._get_current_state()
     states.append(current_state)
     state,reward,done,info=env.step(action,mode='test')
     if done:
@@ -42,33 +42,33 @@ def get_scaler(env):
   return scaler
 
 def play_one_episode(agent,scaler,env,is_train,batch_size):
-    curr_epsilon = agent.epsilon
-    if is_train == 'test':
+    curr_epsilon=agent.epsilon
+    if is_train=='test':
         agent.epsilon = 0.0
-    state = env.reset(mode=is_train)
-    scaled_state = scaler.transform(state)
-    done = False
-    all_daily_returns = []
-    prev_val = env.initial_investment
+    state=env.reset(mode=is_train)
+    scaled_state=scaler.transform(state)
+    done=False
+    all_daily_returns=[]
+    prev_val=env.initial_investment
     while not done:
-        action = agent.act(scaled_state[np.newaxis, :,:])
-        next_state, reward, done, info = env.step(action,mode=is_train)
-        scaled_next_state = scaler.transform(next_state)
-        curr_val = info['curr_val']
-        daily_return = (curr_val - prev_val) / (prev_val + 1e-8)
+        action=agent.act(scaled_state[np.newaxis, :,:])
+        next_state,reward,done,info=env.step(action,mode=is_train)
+        scaled_next_state=scaler.transform(next_state)
+        curr_val=info['curr_val']
+        daily_return=(curr_val-prev_val)/(prev_val+1e-8)
         all_daily_returns.append(daily_return)
-        prev_val = curr_val
-        if is_train == 'train':
-            agent.update_replay_memory(scaled_state, action, reward, scaled_next_state, done)
-            steps_taken = env.curr_step - env.start_step
-            if steps_taken>0 and steps_taken% 21 == 0:
+        prev_val=curr_val
+        if is_train=='train':
+            agent.update_replay_memory(scaled_state,action,reward,scaled_next_state,done)
+            steps_taken=env.curr_step-env.start_step
+            if steps_taken>0 and steps_taken%21==0:
                 for _ in range(1):
                     agent.replay(batch_size)
-        scaled_state = scaled_next_state
-    if is_train == 'test':
-        agent.epsilon = curr_epsilon
-    final_sharpe = MultiStockEnv.sharpe_ratio(all_daily_returns)
-    return info['curr_val'], final_sharpe
+        scaled_state=scaled_next_state
+    if is_train=='test':
+        agent.epsilon=curr_epsilon
+    final_sharpe=MultiStockEnv.sharpe_ratio(all_daily_returns)
+    return info['curr_val'],final_sharpe
 
 if __name__ == '__main__':
     import argparse
@@ -127,35 +127,35 @@ if __name__ == '__main__':
         print(f"Average Final Value:    ₹{avg_val:,.2f} ({avg_return:+.2f}%)")
         print(f"Average Sharpe Ratio:   {avg_sharpe:.2f}")
         print("="*50 + "\n")
-    elif mode == 'train':
-        initial_lr = 7e-5
-        lr_decay =  0.9997
-        best_combined_score = -float('inf')
+    elif mode=='train':
+        initial_lr=7e-5
+        lr_decay=0.9997
+        best_combined_score=-float('inf')
         for e in range(num_episodes):
-            t0 = datetime.now()
-            val, sharpe = play_one_episode(agent, scaler, env, mode, batch_size)
-            new_lr = initial_lr * (lr_decay ** e)
+            t0=datetime.now()
+            val,sharpe=play_one_episode(agent,scaler,env,mode,batch_size)
+            new_lr=initial_lr*(lr_decay**e)
             agent.model.optimizer.learning_rate.assign(new_lr)
-            current_lr = agent.model.optimizer.learning_rate.numpy()
+            current_lr=agent.model.optimizer.learning_rate.numpy()
             agent.memory.increment_beta()
-            if e % agent.decay_frequency == 0:
+            if e%agent.decay_frequency==0:
                 agent.decay_epsilon()
-            if e % 10 == 0:
+            if e%10==0:
                 agent.update_target()
-            if e > 0 and e % 5 == 0:
-                bear_val, bear_sharpe = play_one_episode(agent, scaler, env_val_bear, 'test', batch_size)
-                bull_val, bull_sharpe = play_one_episode(agent, scaler, env_val_bull, 'test', batch_size)
-                combined_score = min(bear_sharpe, bull_sharpe) + ((bear_sharpe + bull_sharpe) * 0.1)
+            if e>0 and e%5==0:
+                bear_val,bear_sharpe=play_one_episode(agent,scaler,env_val_bear,'test',batch_size)
+                bull_val,bull_sharpe=play_one_episode(agent,scaler,env_val_bull,'test',batch_size)
+                combined_score=min(bear_sharpe,bull_sharpe)+((bear_sharpe+bull_sharpe)*0.1)
                 print(f"\n--- Validation @ Episode {e} ---")
                 print(f"  --> Bear (2022)  | Val: ₹{bear_val:.2f} | Sharpe: {bear_sharpe:.2f}")
                 print(f"  --> Bull (23-24) | Val: ₹{bull_val:.2f} | Sharpe: {bull_sharpe:.2f}")
                 print(f"  --> Combined Multi-Regime Score: {combined_score:.4f}")
-                if combined_score > best_combined_score:
-                    best_combined_score = combined_score
+                if combined_score>best_combined_score:
+                    best_combined_score=combined_score
                     agent.save_model(f'{models_folder}/{model_file}')
                     agent.save_target(f'{models_folder}/{target_file}')
                     print("  🌟 NEW BEST MULTI-REGIME MODEL SAVED! 🌟\n")
-            dt = datetime.now() - t0
+            dt=datetime.now()-t0
             print(f"Episode: {e+1}/{num_episodes}, Val: ₹{val:.2f}, Duration: {dt}, LR: {current_lr:.6f}, Eps: {agent.epsilon:.3f}, Train Sharpe: {sharpe:.2f}")
             portfolio_value.append(val)
-    np.save(f'{rewards_folder}/{mode}_portfolio_history.npy', portfolio_value)
+    np.save(f'{rewards_folder}/{mode}_portfolio_history.npy',portfolio_value)
