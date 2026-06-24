@@ -1,122 +1,196 @@
-# 🤖 Deep Reinforcement Learning Quantitative Trading Agent
+🤖 Deep Reinforcement Learning Quantitative Trading Agent
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)
-![Status](https://img.shields.io/badge/Status-Validated-success)
+A systematic quantitative trading agent powered by Double DQN (DDQN) and LSTM networks. This project implements a custom Gymnasium-style environment to autonomously trade a multi-asset portfolio (RELIANCE, INFY, SBIN) using advanced policy optimization, macro-regime filtering, and realistic market friction simulation.
 
-A **systematic quantitative trading agent** powered by **Double DQN (DDQN)** and **LSTM** networks. This project implements a custom Gymnasium environment to autonomously trade a multi-asset portfolio (RELIANCE, INFY, SBIN) using advanced policy optimization and realistic market simulation.
+🚀 Key Performance Highlights
 
-## 🚀 Key Performance Highlights
+In quantitative finance, the ultimate test is out-of-sample generalization. The agent was rigorously validated across distinct macroeconomic regimes to ensure it learned structural market mechanics rather than overfitting to historical noise.
 
-The agent was rigorously validated using a **Monte Carlo Simulation (N=100 Episodes)** to ensure statistical significance.
+Metric
 
-| Metric | 🐂 Bull Market (2023-24) | 🛡️ Stress Test (2025) |
-| :--- | :--- | :--- |
-| **Market Condition** | Strong Uptrend | Volatile / Choppy Regime |
-| **Benchmark Return** | +31.65% | +15.39% |
-| **Bot Return (Cumulative)** | **+71.70%** 🚀 | **+16.80%** ✅ |
-| **Alpha (Edge)** | **+40.05%** | **+1.41%** |
-| **Strategy Behavior** | Aggressive Compounding | Capital Preservation |
+📚 In-Sample (2015-2021)
 
-> **Verification:** See `backtests/` folder for detailed logs and distribution histograms.
+🐻 Bear Market (2022)
 
-## 📊 Monte Carlo Validation
+🐂 Bull Market (2023-24)
 
-Unlike standard backtests that run once, this system was tested on **100 independent episodes** to map the probability distribution of returns.
+🛡️ Forward Walk (2025)
 
-### 1. Bull Market Performance (2023-24)
-**Result:** 70% Total Return (₹20k → ₹34k) on unseen test data. The distribution shows a strong positive skew, indicating the agent effectively captures large uptrends while limiting downside risk.
+Market Condition
 
-![Bull Market Distribution](backtests/2023-24_Bull_Market_Performance.png)
+7-Year Historical Base
 
-> **Note on Variance:** The variance in portfolio values (shown above) is intentional. To simulate realistic **"Adverse Selection"** in HFT execution, the environment is configured with a **70% probability of unfavorable slippage** (0-30bps). The agent's ability to maintain a Sharpe Ratio of 1.4 despite this hostile asymmetry demonstrates robustness against execution noise.
+High Inflation / Rate Hikes
 
-### 2. Stress Test / Volatile Regime (2025)
-**Result:** The agent exhibits **Bimodal Behavior**, intelligently switching to "Cash Preservation" mode during high volatility to protect gains.
+Strong Uptrend
 
-![Stress Test Distribution](backtests/2025_Stress_Test_Volatile_Regime.png)
-## 🛠️ Tech Stack & Architecture
-* **Core:** Python, TensorFlow, Keras, Gymnasium
-* **Model:** Double DQN (DDQN) with **LSTM layers** for time-series memory.
-* **Optimization:** **Prioritized Experience Replay (PER)** using SumTree data structures to focus training on high-error events.
-* **Risk Management:** Sharpe Ratio optimization + Maximum Drawdown penalties using Curriculum Learning.
+Choppy / Regime Shift
 
-## 📐 Mathematical Framework
+Total Return (%)
 
-The agent optimizes a custom **Regime-Aware Reward Function** that dynamically balances profit, risk stability, and opportunity cost based on market momentum (RSI).
++358.9% (₹20k ➔ ₹91.7k)
 
-**Total Reward Equation:**
-> Rₜ = α(100 · rₜ) + β · tanh(Sharpeₜ) - P_cash - P_dd
++31.5%
 
-**Where:**
-* **rₜ (Returns):** Linear scaled portfolio returns.
-* **tanh(Sharpeₜ):** Hyperbolic tangent squashes the Sharpe Ratio to range [-1, 1], preventing gradient explosions during volatile epochs.
-* **P_dd (Drawdown Penalty):** Enforces strict risk management by penalizing drops from peak portfolio value.
++86.0%
 
-**Dynamic Opportunity Cost (P_cash):**
-The agent is penalized for holding cash *only* when the market is bullish (High RSI), forcing it to deploy capital efficiently during uptrends.
++14.3%
 
-> P_cash = 2.5 · (Cash / Value) · ((RSI_weighted - 50) / 50)
+Annualized (CAGR)
 
-*(The agent is punished for hoarding cash when RSI > 50, but encouraged to hold cash when RSI < 50)*
+~24.3%
 
-## 📉 Realistic Market Simulation
-To prevent "paper trading bias," the environment models real-world Indian market friction:
-* **Stochastic Slippage:** 70% probability of adverse execution (0-30 bps).
-* **Transaction Costs:** Includes STT (0.1%), Brokerage, and Stamp Duty on every trade.
-* **Liquidity Constraints:** Simulates partial fills and volume limits.
+N/A (1-Year)
 
-## 🧠 Engineering Challenges & Solutions
+~36.3%
 
-### 1. The "Paper Trading" Bias
-* **Problem:** Initial backtests showed unrealistic 200%+ returns because the agent exploited zero-cost trades and perfect execution.
-* **Solution:** Engineered a custom `slippage_model` (0-30bps variance) and hard-coded Indian taxation laws (STT, Stamp Duty) into the environment step function. This reduced raw returns but ensured the strategy is deployable in real markets.
+N/A (1-Year)
 
-### 2. The "Memoryless" Agent (Architecture Search)
-* **Problem:** Early experiments using standard Multi-Layer Perceptrons (MLP) failed to generalize. The model treated every price point as an isolated event, leading to severe overfitting on training data without learning sequential market momentum.
-* **Solution:** Migrated the Q-Network architecture to use **LSTM (Long Short-Term Memory)** backbones. This allowed the agent to maintain a hidden state of historical price action, effectively letting it "remember" volatility regimes rather than just reacting to the current spot price.
+Agent Sharpe Ratio
 
-### 3. The Sparse Reward Problem
-* **Problem:** In a multi-asset environment, the agent struggled to converge because positive feedback (profitable trades) was too infrequent.
-* **Solution:** Implemented **Prioritized Experience Replay (PER)**. By using a SumTree structure to sample high-TD-error transitions more frequently, the agent learned from "surprising" market events 3x faster than uniform sampling.
+0.78 (7-Year Gauntlet)
 
-### 4. Mode Collapse (Safe-Playing)
-* **Problem:** During high volatility (2025), the agent would simply sit on 100% Cash to avoid penalties.
-* **Solution:** Designed a **Curriculum Learning** reward function and introduced a **holding penalty** for excessive cash positions. Early episodes emphasize raw Alpha (profit) to encourage exploration, while later episodes increasingly weight the **Sharpe Ratio**, teaching the agent to balance risk vs. reward dynamically.
- 
-## 📂 Project Structure
-```text
-├── backtests/                 # Validation Artifacts
-│   ├── 2023-24_Bull_Market_Performance.png
-│   ├── 2025_Stress_Test_Volatile_Regime.png
-│   ├── Logs_2023-24_Bull_Market.txt
-│   ├── Logs_2025_Stress_Test.txt
-│   └── Test_Data.csv
-├── data/                      # Historical Market Data (OHLCV)
-├── models/                    # Serialized Agents & Scalers
+1.01
+
+1.43
+
+0.56 (H2 Peak: 2.18)
+
+Strategy Behavior
+
+Baseline Exploration
+
+Capital Preservation
+
+Aggressive Compounding
+
+Defensive ➔ Trend-Following
+
+Verification: See the backtests/1_logs/ and backtests/3_plots/ folders for detailed step-by-step transaction logs, Monte Carlo simulations, and equity curve distributions.
+
+🛠️ Tech Stack & Architecture
+
+Core: Python, TensorFlow, Keras, Pandas, Streamlit
+
+Model: Double DQN (DDQN) with an LSTM (64 units) backbone for time-series memory retention.
+
+Regularization: GaussianNoise(0.1) and Dropout(0.3) to prevent curve-fitting on high-noise financial data.
+
+Optimization: Prioritized Experience Replay (PER) using a custom O(log N) SumTree data structure to focus training on high-TD-error events.
+
+State Space (31 dims): Portfolio Weights + Technicals (MACD, RSI, BB) + Macro Regime Indicators (India VIX, NIFTY SMA_200).
+
+📐 Mathematical Framework
+
+The agent optimizes a custom Risk-Adjusted Reward Function that dynamically balances absolute profit, volatility smoothing, and capital preservation.
+
+Total Reward Equation:
+
+Rₜ = 5.0 × tanh( 100·rₜ + 0.1·ΔSharpeₜ - 10.0·max(0, ΔDrawdownₜ) )
+
+Where:
+
+rₜ (Returns): Portfolio returns bounded by a scaling factor.
+
+ΔSharpeₜ: The differential Sharpe Ratio. Rewards the agent for smoothing out the volatility of its equity curve.
+
+ΔDrawdownₜ (Delta Drawdown Penalty): Strictly penalizes the agent for creating new losses from the all-time high.
+
+tanh(): Hyperbolic tangent squashes the final reward between [-5, 5], preventing gradient explosions during highly volatile market epochs.
+
+📉 Realistic Market Simulation
+
+To prevent "paper trading bias," the environment mathematically enforces real-world Indian market friction:
+
+Stochastic Slippage: 70% probability of adverse execution (0-30 bps negative slippage).
+
+Transaction Costs: Calculates exact Zerodha Brokerage, STT (0.1%), Exchange Txn charges, SEBI fees, Stamp Duty, and 18% GST on every trade.
+
+Capital Sizing: Dynamically calculates maximum allowable shares based on real-time cash balances and simulated margin.
+
+🧠 Engineering Challenges & Solutions
+
+1. Concept Drift & The "Falling Knife" Trap
+
+Problem: Standard RL bots trained in bull markets learn to aggressively "Buy the Dip." During out-of-sample stress tests (like the 2022 crash), this logic fails catastrophically, causing the bot to catch falling knives.
+
+Solution: Engineered Macro-Regime Filters into the state vector, specifically the India VIX (Turbulence Index) and NIFTY SMA_200 Ratio. This granted the LSTM macro-awareness, allowing it to mathematically differentiate between a safe "bull market dip" and a dangerous "bear market crash."
+
+2. The "Memoryless" Agent (Architecture Search)
+
+Problem: Early experiments using standard Multi-Layer Perceptrons (MLP) treated price points as isolated events, leading to severe overfitting. The bot could not understand sequences or momentum.
+
+Solution: Migrated the Q-Network architecture to an LSTM (Long Short-Term Memory) backbone. This allowed the agent to maintain a hidden state of historical price action, effectively letting it "remember" volatility clustering rather than just reacting to the current spot price.
+
+3. Alpha Decay & Non-Stationarity (The 2025 Problem)
+
+Problem: Financial markets evolve. A model trained on 2015-2021 data inherently suffers from alpha decay when predicting 2025 markets due to shifts in retail participation and changing interest rate regimes.
+
+Solution: Conducted a rigorous 4-year Forward Walk analysis. Instead of catastrophically failing, the frozen model exhibited graceful degradation (0.56 overall Sharpe), successfully recognizing early 2025 chop to preserve capital, before seamlessly pivoting to capture a massive H2 trend with an elite 2.18 Sharpe.
+
+4. The "Revenge Trading" Drawdown Bug
+
+Problem: Early reward functions penalized the agent based on absolute drawdown. When the market crashed and the bot safely retreated to 100% Cash, it continued receiving negative rewards every day. This inadvertently trained the bot to "revenge trade" back into crashing markets.
+
+Solution: Refactored the reward function to penalize Delta Drawdown (new, active losses). Sitting in cash yields a neutral 0 penalty, successfully teaching the neural network the concept of Capital Preservation.
+
+5. Deterministic Illusion (Monte Carlo Variance)
+
+Problem: Standard backtests assume static slippage, creating deterministic illusions of profitability. A model might be profitable by sheer luck of a single execution path.
+
+Solution: Wrapped the evaluation script in a Monte Carlo Simulation module. The testing suite runs $N=5$ independent paths, sampling from a custom stochastic probability distribution for slippage. Final metrics are aggregated averages, mathematically proving the strategy's edge survives extreme execution variance.
+
+6. The Sparse Reward Problem
+
+Problem: In a multi-asset environment with 27 possible discrete actions ($3^3$), the agent struggled to converge because positive feedback was too infrequent.
+
+Solution: Implemented Prioritized Experience Replay (PER) from scratch. By using a binary SumTree to sample high-TD-error transitions, the agent learned from "surprising" market events significantly faster than uniform random sampling.
+
+📂 Project Structure
+
+├── backtests/                 # Validation Artifacts & Output
+│   ├── 1_logs/                # txt files (training, train_test, bear, bull, 2025 H1/H2/Overall)
+│   ├── 2_raw_data/            # npy arrays (portfolio histories for Streamlit/Plots)
+│   └── 3_plots/               # png distribution & equity charts
+├── data/                      # Historical Market Data (Train, Test, Val CSVs)
+├── models/                    # Serialized Agents (.h5) & Pickled Scalers (.pkl)
 ├── src/                       # Core Strategy Logic
-│   ├── __init__.py
-│   ├── agent.py               # DDQN Agent (TensorFlow + PER)
-│   ├── environment.py         # Custom Gymnasium Environment
+│   ├── __init__.py            
+│   ├── agent.py               # DDQN Agent with PER logic
+│   ├── environment.py         # Custom Gymnasium Trading Env
 │   └── model.py               # LSTM Network Architecture
-├── main.py                    # ENTRY POINT (Training & Testing Loop)
+├── app.py                     # Streamlit Dashboard for Live MC Simulation
+├── main.py                    # Entry Point (Training & Evaluation Loop)
 ├── requirements.txt           # Python Dependencies
-└── README.md
-```
-## ⚡ How to Run
-### 1. Prerequisite
-Ensure you have Python 3.8+ installed.
+└── README.md                  # Project Documentation
 
-### 2. Installation
+
+⚡ How to Run
+
+1. Prerequisite
+
+Ensure you have Python 3.8+ and TensorFlow installed.
+
+2. Installation
+
 Clone the repo and install dependencies:
-```bash
+
 git clone https://github.com/Anukalp-21/Deep-RL-Quant-Trader.git
 cd Deep-RL-Quant-Trader
 pip install -r requirements.txt
-```
 
-### 3. Execution
-To start the training or testing loop:
-```bash
-python main.py
-```
+
+3. Execution (Terminal)
+
+To run the evaluation via Monte Carlo Simulation:
+
+python main.py --mode test
+
+
+(To initiate a new training loop, use python main.py --mode train).
+
+4. Interactive Dashboard
+
+To launch the live UI and view real-time forward-walk simulations:
+
+streamlit run app.py
