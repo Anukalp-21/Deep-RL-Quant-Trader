@@ -116,7 +116,7 @@ Ensure you have Python 3.8+ and TensorFlow installed.
 Clone the repo and install dependencies:
 
 ```bash
-git clone [https://github.com/Anukalp-21/Deep-RL-Quant-Trader.git](https://github.com/Anukalp-21/Deep-RL-Quant-Trader.git)
+git clone https://github.com/Anukalp-21/Deep-RL-Quant-Trader.git
 cd Deep-RL-Quant-Trader
 pip install -r requirements.txt
 
