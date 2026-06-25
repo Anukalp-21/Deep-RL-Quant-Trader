@@ -133,11 +133,3 @@ python main.py --mode test
 
 *(To initiate a new training loop, use `python main.py --mode train`).*
 
-### 4. Interactive Dashboard
-
-To launch the live UI and view real-time forward-walk simulations:
-
-```bash
-streamlit run app.py
-
-```
