@@ -98,7 +98,6 @@ To prevent "paper trading bias," the environment mathematically enforces real-wo
 │   ├── environment.py         # Custom Gymnasium Trading Env
 │   └── model.py               # LSTM Network Architecture
 ├── .gitignore
-├── app.py                     # Streamlit Dashboard for Live MC Simulation
 ├── main.py                    # Entry Point (Training & Evaluation Loop)
 ├── requirements.txt           # Python Dependencies
 └── README.md                  # Project Documentation
